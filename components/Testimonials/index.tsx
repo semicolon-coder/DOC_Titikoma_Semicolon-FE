@@ -1,23 +1,15 @@
-import React from 'react';
+import React from 'react'
 import Item from './item';
 
-function Review() {
+function Testimonials() {
   return (
-    <div className="mt-20 bg-primary/20 w-full py-8">
-      <div className="lg:flex lg:flex-row lg:justify-evenly mx-8 font-poppins lg:px-16">
-        <div className="flex flex-col justify-center lg:mr-20">
-          <div className="my-5 lg:w-80">
-            <h1 className="text-center text-xl font-extrabold text-secondary">
-              Apa kata pelanggan kami tentang
-              <span className="text-primary">kualitas TITIKOMA</span>
-            </h1>
-            <p className="text-center mt-2">
-              Kami sangat mengedepankan pelayanan dan kualitas. Mari kita lihat
-              beberapa orang yang memberikan ulasan terhadap TITIKOMA.
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-12 gap-6">
+    <div>
+      <div className="mx-8 lg:px-16 lg:mx-8 py-5 text-center md:text-left">
+            <div className="border-b">
+            <h1 className="text-3xl font-bold mb-1 text-secondary">Testimonial dari pelanggan</h1>
+            </div>
+      </div>
+        <div className="grid grid-cols-12 gap-6 mx-8 font-poppins lg:px-16 lg:mx-8 my-10">
           <Item
             name="Ryan Adi Saputra"
             profession="Freelance"
@@ -55,9 +47,8 @@ function Review() {
             image="/images/person3.jpg"
           />
         </div>
-      </div>
     </div>
   );
 }
 
-export default Review;
+export default Testimonials;

@@ -2,6 +2,8 @@ import React from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Testimonials from '../components/Testimonials';
+import FormTestimonials from '../components/FormTestimonials';
 
 export default function Testimonial() {
   return (
@@ -10,7 +12,8 @@ export default function Testimonial() {
         <title>Testimonial - TITIKOMA</title>
       </Head>
       <Navbar activeMenu="testimonial" />
-      <h1>Testimonial</h1>
+      <Testimonials />
+      <FormTestimonials />
       <Footer />
     </>
   );
