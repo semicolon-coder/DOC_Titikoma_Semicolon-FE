@@ -5,13 +5,16 @@ import ItemTable from './ItemTable';
 import ItemCalculation from './ItemCalculation';
 import { CartTypes } from '../../services/data-types';
 import accumulator from '../../config/cart/Accumulator';
-import { getPromoByCode } from '../../services/api';
+import { addOrder, getPromoByCode } from '../../services/api';
 
 function OrderDetail() {
   const router = useRouter();
   const [cart, setCart] = useState<any[]>([]);
   const [inputCodePromo, setInputCodePromo] = useState('');
-  const [dataDiscount, setDataDiscount] = useState({ discountValue: 0, code: '' });
+  const [dataDiscount, setDataDiscount] = useState({
+    discountValue: 0,
+    code: '',
+  });
   const [calculation, setCalculation] = useState({
     subtotal: 0,
     tax: 0,
@@ -104,8 +107,51 @@ function OrderDetail() {
     }
   }, [cart, dataDiscount]);
 
-  const onSubmit = () => {
-    toast.success('Checkout button!');
+  const onSubmit = async () => {
+    const localCart = JSON.parse(localStorage.getItem('cart')!);
+    const localUserData = JSON.parse(localStorage.getItem('user-data')!);
+    const localCalculation = JSON.parse(localStorage.getItem('calculation')!);
+    const localDataDiscount = JSON.parse(
+      localStorage.getItem('data-discount')!
+    );
+
+    const schemaDataCart = localCart.map((item: CartTypes) => ({
+      productId: item.productId,
+      productName: item.name,
+      productPrice: item.price,
+      qty: item.qty,
+    }));
+
+    const data = {
+      historyCart: schemaDataCart,
+      subtotal: localCalculation.subtotal,
+      historyPromo: localDataDiscount._id || null,
+      tax: localCalculation.tax,
+      discount: localCalculation.discount,
+      total: localCalculation.total,
+      customer: localUserData,
+      payment: {
+        name: 'Cash',
+        category: 'Direct',
+        accountNumber: '-',
+      },
+    };
+
+    if (
+      localUserData.name === '' ||
+      localUserData.email === '' ||
+      localUserData.phoneNumber === ''
+    ) {
+      toast.error('Isi data anda terlebih dahulu!');
+    } else {
+      await addOrder(data)
+        .then((res) => {
+          toast.success('Berhasil Checkout!');
+        })
+        .catch((err) => {
+          toast.error('Gagal checkout!');
+        });
+    }
   };
 
   return (

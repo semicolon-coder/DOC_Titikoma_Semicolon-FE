@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Item from './Item';
 
 function InputCustomer() {
+  const [userDataName, setUserDataName] = useState('');
+  const [userDataEmail, setUserDataEmail] = useState('');
+  const [userDataPhone, setUserDataPhone] = useState('');
+
+  const userData = {
+    name: userDataName,
+    email: userDataEmail,
+    phoneNumber: userDataPhone,
+  };
+
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('user-data', JSON.stringify(userData));
+  }
+
   return (
     <>
       <div className="mx-8 lg:px-16 lg:mx-8 py-5 text-center md:text-left">
@@ -14,11 +28,26 @@ function InputCustomer() {
       <div className="flex flex-col mx-8 lg:px-16 lg:mx-8 py-5 text-left font-poppins">
         <form action="">
           <div className="grid grid-cols-12 gap-6">
-            <Item title="Nama" type="text" label="nameCustomer" placeholder="Masukkan nama anda..." />
-            <Item title="Email" type="email" label="emailCustomer" placeholder="Masukkan email aktif anda.." />
             <Item
-              title="Nomor Telfon"type="text" label="numberCustomer" 
+              title="Nama"
+              placeholder="Masukkan nama anda..."
+              onInputUserData={(event: { target: { value: string } }) =>
+                setUserDataName(event.target.value)
+              }
+            />
+            <Item
+              title="Email"
+              placeholder="Masukkan email aktif anda.."
+              onInputUserData={(event: { target: { value: string } }) =>
+                setUserDataEmail(event.target.value)
+              }
+            />
+            <Item
+              title="Nomor Telfon"
               placeholder="Masukkan nomor telfon aktif anda.."
+              onInputUserData={(event: { target: { value: string } }) =>
+                setUserDataPhone(event.target.value)
+              }
             />
           </div>
         </form>

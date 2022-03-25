@@ -12,13 +12,6 @@ export interface ProductCardProps {
   onAddClick: () => void;
 }
 
-export interface AccumulatorTypes {
-  discount: number;
-  subtotal: number;
-  tax: number;
-  total: number;
-}
-
 export interface HistoryCartResult {
   price: number;
   qty: number;
@@ -26,6 +19,7 @@ export interface HistoryCartResult {
 }
 
 export interface CartTypes {
+  productId: string;
   _id: string;
   name: string;
   price: number;

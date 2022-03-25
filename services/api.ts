@@ -15,6 +15,12 @@ export async function getPromoByCode(code: string) {
   return callAPI({ url, method: 'GET' });
 }
 
+export async function addOrder(data: any) {
+  const url = `${ROOT_API}/${PATH_API}/order/add`;
+
+  return callAPI({ url, method: 'POST', data });
+}
+
 export async function getAllProduct() {
   const url = `${ROOT_API}/${PATH_API}/product`;
 
