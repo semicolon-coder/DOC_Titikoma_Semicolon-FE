@@ -1,5 +1,5 @@
-import React from 'react'
-import Item from './item';
+import React from 'react';
+import Item from './Item';
 
 function Testimonials() {
   return (
@@ -17,7 +17,6 @@ function Testimonials() {
               terjangkau bagi kantong anak muda serta pelayanan yang modern,
               berbeda dengan kafe lain pada umumnya. Wajib datang, kalian pasti
               tidak akan kecewa."
-            image="/images/ryandmasiv.jpg"
           />
           <Item
             name="Nathanael"
@@ -26,7 +25,6 @@ function Testimonials() {
               banget. Paling suka sama Honey Pancake disini, lembut sama madunya
               manis semanis aku, xixixi. Pokok terdebest deh kalau kesini,
               recommended banget donggg."
-            image="/images/person1.jpg"
           />
           <Item
             name="Harits"
@@ -35,7 +33,6 @@ function Testimonials() {
               wifi cepet, tempat nyaman, dan pastinya ada coworking spacenya
               yang pasti aman. Cafe jaman now yang gua rekom buat kalian yang
               pingin WFH."
-            image="/images/person2.jpg"
           />
           <Item
             name="Cassie"
@@ -44,7 +41,6 @@ function Testimonials() {
               wifi cepet, tempat nyaman, dan pastinya ada coworking spacenya
               yang pasti aman. Cafe jaman now yang gua rekom buat kalian yang
               pingin WFH."
-            image="/images/person3.jpg"
           />
         </div>
     </div>

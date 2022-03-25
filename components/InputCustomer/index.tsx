@@ -14,10 +14,10 @@ function InputCustomer() {
       <div className="flex flex-col mx-8 lg:px-16 lg:mx-8 py-5 text-left font-poppins">
         <form action="">
           <div className="grid grid-cols-12 gap-6">
-            <Item title="Nama" placeholder="Masukkan nama anda..." />
-            <Item title="Email" placeholder="Masukkan email aktif anda.." />
+            <Item title="Nama" type="text" label="nameCustomer" placeholder="Masukkan nama anda..." />
+            <Item title="Email" type="email" label="emailCustomer" placeholder="Masukkan email aktif anda.." />
             <Item
-              title="Nomor Telfon"
+              title="Nomor Telfon"type="text" label="numberCustomer" 
               placeholder="Masukkan nomor telfon aktif anda.."
             />
           </div>
