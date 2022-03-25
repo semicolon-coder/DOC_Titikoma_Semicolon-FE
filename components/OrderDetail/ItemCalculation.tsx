@@ -1,4 +1,5 @@
 import React from 'react';
+import NumberFormat from 'react-number-format';
 
 interface ItemCalculationProps {
   title: string;
@@ -13,7 +14,13 @@ function ItemCalculation(props: ItemCalculationProps) {
         {title}
       </div>
       <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-        {value}
+        <NumberFormat
+          value={value}
+          prefix="Rp. "
+          displayType="text"
+          thousandSeparator="."
+          decimalSeparator=","
+        />
       </div>
     </div>
   );

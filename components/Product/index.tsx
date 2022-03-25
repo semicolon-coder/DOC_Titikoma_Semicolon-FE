@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import NumberFormat from 'react-number-format';
 import { ProductCardProps } from '../../services/data-types';
 
 function ProductCard(props: ProductCardProps) {
@@ -18,7 +19,15 @@ function ProductCard(props: ProductCardProps) {
         <div className="flex flex-row justify-between p-3 px-5">
           <div className="text-left">
             <h1 className="font-semibold">{title}</h1>
-            <p>{price}</p>
+            <p>
+              <NumberFormat
+                value={price}
+                prefix="Rp. "
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+              />
+            </p>
           </div>
           <div className="flex flex-col justify-center">
             <div className="border rounded-full px-4 py-2 transition duration-300 hover:bg-primary hover:text-white">

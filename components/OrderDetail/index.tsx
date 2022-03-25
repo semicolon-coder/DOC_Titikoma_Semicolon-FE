@@ -33,7 +33,7 @@ function OrderDetail() {
 
     localStorage.setItem('cart', cartString);
     toast.success(
-      `Berhasil mengubah jumlah ${name} menjadi ${existentItem.qty}.`
+      `Berhasil mengubah jumlah barang ${name} menjadi ${existentItem.qty}.`
     );
   };
 
@@ -95,66 +95,66 @@ function OrderDetail() {
               <div className="overflow-hidden shadow-md rounded-md">
                 <table className="min-w-full">
                   <thead className="bg-primary text-white">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                      >
-                        Foto Produk
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                      >
-                        Nama Produk
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                      >
-                        Harga
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                      >
-                        Jumlah
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                      >
-                        Total
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                      >
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                    >
+                      Foto Produk
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                    >
+                      Nama Produk
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                    >
+                      Harga
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                    >
+                      Jumlah
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                    >
+                      Total
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                    >
                         <span className="flex flex-row justify-center">
                           Hapus
                         </span>
-                      </th>
-                    </tr>
+                    </th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {cart.map((item: CartTypes) => (
-                      <ItemTable
-                        key={item._id}
-                        image={item.image}
-                        name={item.name}
-                        price={item.price}
-                        qty={item.qty}
-                        onBtnAdd={() => {
-                          onEditItemCart(item._id, 1, item.name);
-                        }}
-                        onBtnSubt={() =>
-                          onEditItemCart(item._id, -1, item.name)
-                        }
-                        onBtnDelete={() =>
-                          onRemoveItemCart(item._id, item.name)
-                        }
-                      />
-                    ))}
+                  {cart.map((item: CartTypes) => (
+                    <ItemTable
+                      key={item._id}
+                      image={item.image}
+                      name={item.name}
+                      price={item.price}
+                      qty={item.qty}
+                      onBtnAdd={() => {
+                        onEditItemCart(item._id, 1, item.name);
+                      }}
+                      onBtnSubt={() =>
+                        onEditItemCart(item._id, -1, item.name)
+                      }
+                      onBtnDelete={() =>
+                        onRemoveItemCart(item._id, item.name)
+                      }
+                    />
+                  ))}
                   </tbody>
                 </table>
               </div>
@@ -163,7 +163,7 @@ function OrderDetail() {
         </div>
         <ItemCalculation title="Subtotal" value={calculation.subtotal} />
         <ItemCalculation title="Potongan Harga" value={calculation.discount} />
-        <ItemCalculation title="Tax" value={calculation.tax} />
+        <ItemCalculation title="Tax (10%)" value={calculation.tax} />
         <ItemCalculation title="Total" value={calculation.total} />
         <a href="#">
           <div className="flex flex-row justify-center">

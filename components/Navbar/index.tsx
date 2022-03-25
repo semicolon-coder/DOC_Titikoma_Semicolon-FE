@@ -29,7 +29,9 @@ export default function Navbar(props: NavbarActiveProps) {
     <div className="grid grid-cols-12 font-poppins">
       <div className="col-span-12 bg-primary h-[75px] flex flex-row justify-between">
         <div className="flex flex-col justify-center px-7 lg:ml-16 w-56">
-          <img src="/images/semicolon-logo.png" alt="TITIKOMA-LOGO" />
+          <Link href="/">
+            <img src="/images/semicolon-logo.png" alt="TITIKOMA-LOGO" />
+          </Link>
         </div>
         <div className="hidden lg:inline-flex">
           <div className="h-auto flex flex-row justify-between">

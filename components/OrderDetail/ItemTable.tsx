@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NumberFormat from 'react-number-format';
 import Image from 'next/image';
 
 interface ItemTableProps {
@@ -51,7 +52,13 @@ function ItemTable(props: ItemTableProps) {
         {name}
       </td>
       <td className="py-4 px-6 text-md font-medium text-gray-800 whitespace-nowrap">
-        {price}
+        <NumberFormat
+          value={price}
+          prefix="Rp. "
+          displayType="text"
+          thousandSeparator="."
+          decimalSeparator=","
+        />
       </td>
       <td className="py-4 px-6 text-md font-medium text-gray-800 whitespace-nowrap">
         <div className="flex w-24">
@@ -106,7 +113,13 @@ function ItemTable(props: ItemTableProps) {
         </div>
       </td>
       <td className="py-4 px-6 text-md font-medium text-gray-800 whitespace-nowrap">
-        {price * qtyValue}
+        <NumberFormat
+          value={price * qtyValue}
+          prefix="Rp. "
+          displayType="text"
+          thousandSeparator="."
+          decimalSeparator=","
+        />
       </td>
       <td className="py-4 px-6 text-md font-medium text-gray-800 whitespace-nowrap">
         <a className="flex flex-row justify-center">
