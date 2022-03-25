@@ -9,7 +9,7 @@ function Review() {
           <div className="my-5 lg:w-80">
             <h1 className="text-center text-xl font-extrabold text-secondary">
               Apa kata pelanggan kami tentang
-              <span className="text-primary">kualitas TITIKOMA</span>
+              <span className="text-primary"> kualitas TITIKOMA</span>
             </h1>
             <p className="text-center mt-2">
               Kami sangat mengedepankan pelayanan dan kualitas. Mari kita lihat

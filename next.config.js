@@ -4,6 +4,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ['doc-be.erpn.us'],
+  },
 };
 
 module.exports = nextConfig;

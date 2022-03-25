@@ -1,9 +1,53 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 import ProductCard from '../Product';
 import Highlight from './Highlight';
+import { getPopularProduct } from '../../services/api';
+import { CartTypes, ProductCardProps } from '../../services/data-types';
 
 function PopularMenu() {
+  const [popularProduct, setPopularProduct] = useState([]);
+  const [cart, setCart] = useState<any[]>([]);
+  let localCart: string | null;
+  if (typeof window !== 'undefined') {
+    localCart = localStorage.getItem('cart');
+  }
+
+  const getPopularProductAPI = useCallback(async () => {
+    const data = await getPopularProduct();
+    setPopularProduct(data);
+  }, [getPopularProduct]);
+
+  const addToCart = (item: CartTypes, name: string) => {
+    item.qty = 1;
+    const cartCopy = [...cart];
+
+    const existingItem = cartCopy.find(
+      (cartItem: ProductCardProps) => cartItem._id === item._id
+    );
+
+    if (existingItem) {
+      existingItem.qty += item.qty;
+    } else {
+      cartCopy.push(item);
+    }
+
+    setCart(cartCopy);
+
+    const stringCart = JSON.stringify(cartCopy);
+    localStorage.setItem('cart', stringCart);
+    toast.success(`Berhasil menambahkan ${name} ke dalam keranjang!`);
+  };
+
+  useEffect(() => {
+    getPopularProductAPI();
+    const localCartJSON = JSON.parse(localCart!);
+    if (localCartJSON) {
+      setCart(localCartJSON);
+    }
+  }, []);
+
   return (
     <div className="grid grid-cols-12 gap-4 mx-8 font-poppins lg:px-16 lg:mx-8">
       <div className="col-span-12 mt-16">
@@ -11,26 +55,17 @@ function PopularMenu() {
           Popular Menu
         </h1>
       </div>
-      <ProductCard
-        title="Arabica Coffee"
-        image="/product-img/americano.jpg"
-        price={15000}
-      />
-      <ProductCard
-        title="Capuccino Coffee"
-        image="/product-img/cappuccino.jpg"
-        price={21000}
-      />
-      <ProductCard
-        title="Lemon Splash"
-        image="/product-img/lemon-splash.jpg"
-        price={24000}
-      />
-      <ProductCard
-        title="Sandwich"
-        image="/product-img/sandwich.jpg"
-        price={22000}
-      />
+      {popularProduct.map((item: CartTypes) => (
+        <ProductCard
+          key={item._id}
+          _id={item._id}
+          title={item.name}
+          image={item.image}
+          price={item.price}
+          qty={1}
+          onAddClick={() => addToCart(item, item.name)}
+        />
+      ))}
       <Highlight
         name="Beef Taco"
         title="Melihat pemandangan bagus dengan"

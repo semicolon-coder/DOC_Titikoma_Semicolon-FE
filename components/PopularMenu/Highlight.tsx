@@ -31,7 +31,6 @@ function Highlight(props: Partial<HighlightProps>) {
       <Image
         height={300}
         width={700}
-        layout="fixed"
         className="h-64 md:h-72 w-full object-cover md:w-2/3"
         src={image!}
         alt="product-image"
