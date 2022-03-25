@@ -5,12 +5,13 @@ async function callAPI({ url, method, data }: AxiosRequestConfig) {
     url,
     method,
     data,
-  }).catch((err) => err.response.message);
+  });
 
-  if (response.data.message.error) {
+  if (response.data.error) {
     return response.data.message;
   }
-  return response.data.data;
+
+  return response.data;
 }
 
 export default callAPI;

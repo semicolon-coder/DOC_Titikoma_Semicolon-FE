@@ -15,8 +15,8 @@ function PopularMenu() {
   }
 
   const getPopularProductAPI = useCallback(async () => {
-    const data = await getPopularProduct();
-    setPopularProduct(data);
+    const dataFromAPI = await getPopularProduct();
+    setPopularProduct(dataFromAPI.data);
   }, [getPopularProduct]);
 
   const addToCart = (item: CartTypes, name: string) => {

@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import ItemTable from './ItemTable';
 import ItemCalculation from './ItemCalculation';
 import { CartTypes } from '../../services/data-types';
 import accumulator from '../../config/cart/Accumulator';
+import { getPromoByCode } from '../../services/api';
 
 function OrderDetail() {
   const router = useRouter();
   const [cart, setCart] = useState<any[]>([]);
+  const [inputCodePromo, setInputCodePromo] = useState('');
+  const [dataDiscount, setDataDiscount] = useState({ discountValue: 0, code: '' });
   const [calculation, setCalculation] = useState({
     subtotal: 0,
     tax: 0,
@@ -33,7 +36,7 @@ function OrderDetail() {
 
     localStorage.setItem('cart', cartString);
     toast.success(
-      `Berhasil mengubah jumlah barang ${name} menjadi ${existentItem.qty}.`
+      `Berhasil mengubah jumlah menu ${name} menjadi ${existentItem.qty}.`
     );
   };
 
@@ -46,6 +49,31 @@ function OrderDetail() {
     const cartString = JSON.stringify(cartCopy);
     localStorage.setItem('cart', cartString);
     toast.success(`Berhasil menghapus ${name}.`);
+  };
+
+  const getPromoByCodeAPI = useCallback(
+    async (code) => {
+      const data = await getPromoByCode(code);
+      return data;
+    },
+    [getPromoByCode]
+  );
+
+  const onApplyDiscount = async () => {
+    await getPromoByCodeAPI(inputCodePromo)
+      .then((res) => {
+        if (res.data.status) {
+          setDataDiscount(res.data);
+          toast.success('Kode voucher berhasil digunakan!');
+        } else {
+          setDataDiscount({ discountValue: 0, code: '' });
+          toast.error('Kode voucher gagal digunakan/masa berlaku invalid!');
+        }
+      })
+      .catch((err) => {
+        setDataDiscount({ discountValue: 0, code: '' });
+        toast.error('Kode voucher tidak valid!');
+      });
   };
 
   useEffect(() => {
@@ -61,7 +89,7 @@ function OrderDetail() {
 
   useEffect(() => {
     const tax = 10;
-    const discount = 0;
+    const discount = dataDiscount.discountValue;
     let localCart: CartTypes;
     if (typeof window !== 'undefined') {
       localCart = JSON.parse(localStorage.getItem('cart')!);
@@ -70,10 +98,11 @@ function OrderDetail() {
       } else {
         const result = accumulator(localCart, discount, tax);
         localStorage.setItem('calculation', JSON.stringify(result));
+        localStorage.setItem('data-discount', JSON.stringify(dataDiscount));
         setCalculation(result);
       }
     }
-  }, [cart]);
+  }, [cart, dataDiscount]);
 
   const onSubmit = () => {
     toast.success('Checkout button!');
@@ -161,10 +190,39 @@ function OrderDetail() {
             </div>
           </div>
         </div>
-        <ItemCalculation title="Subtotal" value={calculation.subtotal} />
-        <ItemCalculation title="Potongan Harga" value={calculation.discount} />
-        <ItemCalculation title="Tax (10%)" value={calculation.tax} />
-        <ItemCalculation title="Total" value={calculation.total} />
+        <div className="grid grid-cols-12 gap-5 lg:gap-20">
+          <div className="col-span-12 lg:col-span-6 mt-6">
+            <h1 className="mb-2 text-lg lg:text-xl font-bold">Kode Voucher</h1>
+            <div className="grid grid-cols-12 gap-2">
+              <div className="col-span-12 md:col-span-8 w-full h-auto flex flex-col">
+                <input
+                  type="text"
+                  className="rounded-full px-4 py-[10px] border border-gray-500 font-thin text-sm"
+                  placeholder="Masukkan kode voucher.."
+                  onChange={(event) => setInputCodePromo(event.target.value)}
+                />
+              </div>
+              <div className="col-span-12 md:col-span-4 h-auto flex flex-col">
+                <button
+                  type="button"
+                  className="px-4 py-2 border border-secondary rounded-full hover:bg-primary hover:text-white transition duration-300"
+                  onClick={onApplyDiscount}
+                >
+                  Pakai
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="col-span-12 lg:col-span-6 flex flex-col lg:mt-4">
+            <ItemCalculation title="Subtotal" value={calculation.subtotal} />
+            <ItemCalculation
+              title={`Diskon ${dataDiscount.code}`}
+              value={calculation.discount}
+            />
+            <ItemCalculation title="Tax (10%)" value={calculation.tax} />
+            <ItemCalculation title="Total" value={calculation.total} />
+          </div>
+        </div>
         <a href="#">
           <div className="flex flex-row justify-center">
             <button

@@ -9,6 +9,12 @@ export async function getPopularProduct() {
   return callAPI({ url, method: 'GET' });
 }
 
+export async function getPromoByCode(code: string) {
+  const url = `${ROOT_API}/${PATH_API}/promo/code/${code}`;
+
+  return callAPI({ url, method: 'GET' });
+}
+
 export async function getAllProduct() {
   const url = `${ROOT_API}/${PATH_API}/product`;
 

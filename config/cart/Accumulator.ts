@@ -15,24 +15,29 @@ export default function accumulator(
   );
 
   if (historyCart.length === 1) {
+    const subtotalRaw = historyCart[0].price * historyCart[0].qty;
+    const subtotalSubtDisc = subtotalRaw - discount;
+    const taxResult = subtotalSubtDisc * (tax / 100);
+    const totalResult = subtotalSubtDisc + taxResult;
+
     return {
-      subtotal: historyCart[0].price * historyCart[0].qty,
       discount,
-      tax: (historyCart[0].price * historyCart[0].qty - discount) * (tax / 100),
-      total:
-        historyCart[0].price * historyCart[0].qty +
-        (historyCart[0].price * historyCart[0].qty - discount) * (tax / 100),
+      subtotal: subtotalRaw,
+      tax: taxResult,
+      total: totalResult,
     };
   }
 
-  const subtotalResult = historyCart
+  const subtotalRaw = historyCart
     .map((item: HistoryCartResult) => item.total)
     .reduce((a: number, b: number) => a + b, 0);
-  const taxResult = (subtotalResult - discount) * (tax / 100);
-  const totalResult = subtotalResult + taxResult;
+  const subtotalSubtDisc = subtotalRaw - discount;
+  const taxResult = subtotalSubtDisc * (tax / 100);
+  const totalResult = subtotalSubtDisc + taxResult;
+
   return {
     discount,
-    subtotal: subtotalResult,
+    subtotal: subtotalRaw,
     tax: taxResult,
     total: totalResult,
   };
