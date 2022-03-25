@@ -1,6 +1,6 @@
 # DOC_Titikoma_Semicolon-FE
 
-This repository is for Front-End, currently still on development mode. will be published in http://titikoma-fe.vercel.app/
+This repository is for Front-End, currently still on development mode. will be published in https://doc-titikoma-semicolon-fe.vercel.app/
 
 ## Who's behind this project?
 
