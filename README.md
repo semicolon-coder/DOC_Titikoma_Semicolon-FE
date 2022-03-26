@@ -22,4 +22,5 @@ Titik Koma Cafe adalah sebuah aplikasi yang digunakan untuk menjadi terobosan ba
 * ReactJS with framework NextJS
 * Tailwind CSS
 
-## This web app published in https://doc-titikoma-semicolon-fe.vercel.app/
+## This web app published in 
+https://doc-titikoma-semicolon-fe.vercel.app/
