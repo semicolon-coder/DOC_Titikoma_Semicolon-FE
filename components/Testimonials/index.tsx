@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {useRouter} from 'next/router';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 import Item from './Item';
 import { addTestimonial, getAllTestimonial } from '../../services/api';
 import { TestimonialTypes } from '../../services/data-types';
@@ -12,11 +12,6 @@ function Testimonials() {
   const [testimonialEmail, setTestimonialEmail] = useState('');
   const [testimonialDescription, setTestimonialDescription] = useState('');
   const [dataTestimonial, setDataTestimonial] = useState([]);
-
-  const getDataTestimonialFromAPI = async () => {
-    const data = await getAllTestimonial();
-    setDataTestimonial(data.data);
-  };
 
   const addDataTestimonialToAPI = useCallback(async (data) => {
     await addTestimonial(data)
@@ -45,6 +40,11 @@ function Testimonials() {
       addDataTestimonialToAPI(data);
     }
   };
+
+  const getDataTestimonialFromAPI = useCallback(async () => {
+    const data = await getAllTestimonial();
+    setDataTestimonial(data.data);
+  }, []);
 
   useEffect(() => {
     getDataTestimonialFromAPI();
