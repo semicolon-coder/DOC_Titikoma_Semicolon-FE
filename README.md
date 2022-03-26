@@ -8,9 +8,6 @@ Titik Koma Cafe adalah sebuah aplikasi yang digunakan untuk menjadi terobosan ba
 * mempermudah pemesanan & pembayaran
 * menerapkan teknologi di lingkungan masyarakat
 
-published in https://doc-titikoma-semicolon-fe.vercel.app/
-
-
 ## Who's behind this project?
 
 1. Ryan Adi Saputra: Project Manager and UI/UX, Semi FrontEnd Dev
@@ -24,3 +21,5 @@ published in https://doc-titikoma-semicolon-fe.vercel.app/
 * NodeJS
 * ReactJS with framework NextJS
 * Tailwind CSS
+
+## This web app published in https://doc-titikoma-semicolon-fe.vercel.app/
