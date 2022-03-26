@@ -8,7 +8,9 @@ interface ItemProps {
 }
 
 function Item(props: ItemProps) {
-  const { name, profession, review, image } = props;
+  const {
+    name, profession, review, image,
+  } = props;
   return (
     <div className="col-span-12 md:col-span-6 2xl:col-span-3 bg-white rounded-lg p-5">
       <div className="ml-2 flex text-center flex-col">

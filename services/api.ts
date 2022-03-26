@@ -1,4 +1,5 @@
 import callAPI from '../config/api';
+import { TestimonialTypes } from './data-types';
 
 const ROOT_API = process.env.NEXT_PUBLIC_API;
 const PATH_API = 'api';
@@ -43,4 +44,20 @@ export async function getProductByCategoryAPI(key: string) {
   const url = `${ROOT_API}/${PATH_API}/product?view=${key}`;
 
   return callAPI({ url, method: 'GET' });
+}
+
+export async function getAllTestimonial() {
+  const url = `${ROOT_API}/${PATH_API}/testimonial`;
+
+  return callAPI({ url, method: 'GET' });
+}
+
+export async function addTestimonial(data: {
+  name: string;
+  description: string;
+  email: string;
+}) {
+  const url = `${ROOT_API}/${PATH_API}/testimonial/add`;
+
+  return callAPI({ url, method: 'POST', data });
 }

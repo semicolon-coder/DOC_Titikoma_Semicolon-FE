@@ -24,7 +24,7 @@ function PopularMenu() {
     const cartCopy = [...cart];
 
     const existingItem = cartCopy.find(
-      (cartItem: ProductCardProps) => cartItem._id === item._id
+      (cartItem: ProductCardProps) => cartItem._id === item._id,
     );
 
     if (existingItem) {

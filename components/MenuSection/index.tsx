@@ -70,8 +70,6 @@ function MenuSection() {
     [dataCategory]
   );
 
-  useEffect(() => {});
-
   useEffect(() => {
     getDataCategory();
     getAllProductFromAPI();

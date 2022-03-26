@@ -13,7 +13,9 @@ interface ItemTableProps {
 }
 
 function ItemTable(props: ItemTableProps) {
-  const { image, name, price, qty, onBtnAdd, onBtnSubt, onBtnDelete } = props;
+  const {
+    image, name, price, qty, onBtnAdd, onBtnSubt, onBtnDelete,
+  } = props;
   const [qtyValue, setQtyValue] = useState(qty);
 
   const addition = () => {

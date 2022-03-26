@@ -8,7 +8,9 @@ interface ItemProps {
 }
 
 function Item(props: ItemProps) {
-  const { title, type, label, placeholder } = props;
+  const {
+    title, type, label, placeholder,
+  } = props;
   return (
     <div className="col-span-12 lg:col-span-4 h-auto flex flex-col mb-3">
       <label className="mb-1" htmlFor={label}>

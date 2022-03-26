@@ -1,49 +1,107 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { toast } from 'react-toastify';
 import Item from './Item';
+import { addTestimonial, getAllTestimonial } from '../../services/api';
+import { TestimonialTypes } from '../../services/data-types';
+import FormTestimonial from '../FormTestimonial';
 
 function Testimonials() {
+  const [testimonialName, setTestimonialName] = useState('');
+  const [testimonialEmail, setTestimonialEmail] = useState('');
+  const [testimonialDescription, setTestimonialDescription] = useState('');
+  const [dataTestimonial, setDataTestimonial] = useState([]);
+
+  const getDataTestimonialFromAPI = async () => {
+    const data = await getAllTestimonial();
+    setDataTestimonial(data.data);
+  };
+
+  const addDataTestimonialToAPI = useCallback(async (data) => {
+    await addTestimonial(data)
+      .then((r) => {
+        toast.success('Terima kasih atas masukkannya!');
+      })
+      .catch(() => {
+        toast.error('Testimonial gagal dikirim!');
+      });
+  }, []);
+
+  const addTestimonialData = async () => {
+    if (
+      testimonialName === '' ||
+      testimonialEmail === '' ||
+      testimonialDescription === ''
+    ) {
+      toast.error('Mohon isi data testimonial terlebih dahulu!');
+    } else {
+      const data = {
+        name: testimonialName,
+        email: testimonialEmail,
+        description: testimonialDescription,
+      };
+
+      addDataTestimonialToAPI(data);
+    }
+  };
+
+  useEffect(() => {
+    getDataTestimonialFromAPI();
+  }, [addTestimonialData]);
+
   return (
-    <div>
+    <>
       <div className="mx-8 lg:px-16 lg:mx-8 py-5 text-center md:text-left">
         <div className="border-b">
-          <h1 className="text-3xl font-bold mb-1 text-secondary">Testimonial dari pelanggan</h1>
+          <h1 className="text-3xl font-bold mb-1 text-secondary">
+            Testimonial dari pelanggan
+          </h1>
         </div>
       </div>
       <div className="grid grid-cols-12 gap-6 mx-8 font-poppins lg:px-16 lg:mx-8 my-10">
-        <Item
-          name="Ryan Adi Saputra"
-          profession="Freelance"
-          review="Titikoma; memang terbaik, minuman dan makanan disini cukup
-              terjangkau bagi kantong anak muda serta pelayanan yang modern,
-              berbeda dengan kafe lain pada umumnya. Wajib datang, kalian pasti
-              tidak akan kecewa."
-        />
-        <Item
-          name="Nathanael"
-          profession="Manager"
-          review="Sering hangout bareng temen disini dan emang suasananya asik
-              banget. Paling suka sama Honey Pancake disini, lembut sama madunya
-              manis semanis aku, xixixi. Pokok terdebest deh kalau kesini,
-              recommended banget donggg."
-        />
-        <Item
-          name="Harits"
-          profession="Desainer"
-          review="Ngopi disini sambil garap kerjaan kantor memang dapat diandalkan,
-              wifi cepet, tempat nyaman, dan pastinya ada coworking spacenya
-              yang pasti aman. Cafe jaman now yang gua rekom buat kalian yang
-              pingin WFH."
-        />
-        <Item
-          name="Cassie"
-          profession="Desainer"
-          review="Ngopi disini sambil garap kerjaan kantor memang dapat diandalkan,
-              wifi cepet, tempat nyaman, dan pastinya ada coworking spacenya
-              yang pasti aman. Cafe jaman now yang gua rekom buat kalian yang
-              pingin WFH."
-        />
+        {dataTestimonial.map((item: TestimonialTypes) => (
+          <Item key={item._id} name={item.name} review={item.description} />
+        ))}
       </div>
-    </div>
+      <div className="mx-8 lg:px-16 lg:mx-8 py-5 text-center md:text-left">
+        <div className="border-b">
+          <h1 className="text-3xl font-bold mb-1 text-secondary">
+            Tulis Testimonial
+          </h1>
+        </div>
+      </div>
+      <div className="flex flex-col mx-8 lg:px-16 lg:mx-8 py-5 text-left">
+        <FormTestimonial
+          title="Nama"
+          placeholder="Masukkan nama Anda..."
+          onChangeInput={(event: { target: { value: string } }) =>
+            setTestimonialName(event.target.value)
+          }
+        />
+        <FormTestimonial
+          title="Email"
+          placeholder="Masukkan email Anda..."
+          onChangeInput={(event: { target: { value: string } }) =>
+            setTestimonialEmail(event.target.value)
+          }
+        />
+        <FormTestimonial
+          title="Testimonial/review untuk TITIKOMA"
+          placeholder="Masukkan review/kritik/saranmu disini..."
+          onChangeInput={(event: { target: { value: string } }) =>
+            setTestimonialDescription(event.target.value)
+          }
+        />
+        <div className="flex flex-row justify-center">
+          <button
+            type="submit"
+            className="mt-5 rounded-full px-5 py-2 border bg-primary shadow-sm text-white transition duration-300 hover:shadow-lg"
+            onClick={addTestimonialData}
+          >
+            <a>Kirim Data</a>
+          </button>
+        </div>
+      </div>
+    </>
   );
 }
 

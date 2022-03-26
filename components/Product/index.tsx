@@ -4,7 +4,9 @@ import NumberFormat from 'react-number-format';
 import { ProductCardProps } from '../../services/data-types';
 
 function ProductCard(props: ProductCardProps) {
-  const { title, image, price, onAddClick } = props;
+  const {
+    title, image, price, onAddClick,
+  } = props;
 
   return (
     <div className="col-span-12 md:col-span-6 lg:col-span-3">

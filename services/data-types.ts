@@ -32,3 +32,9 @@ export interface CategoryTypes {
   _id: string;
   name: string;
 }
+
+export interface TestimonialTypes {
+  _id: string;
+  name: string;
+  description: string;
+}

@@ -39,7 +39,7 @@ function OrderDetail() {
 
     localStorage.setItem('cart', cartString);
     toast.success(
-      `Berhasil mengubah jumlah menu ${name} menjadi ${existentItem.qty}.`
+      `Berhasil mengubah jumlah menu ${name} menjadi ${existentItem.qty}.`,
     );
   };
 
@@ -59,7 +59,7 @@ function OrderDetail() {
       const data = await getPromoByCode(code);
       return data;
     },
-    [getPromoByCode]
+    [getPromoByCode],
   );
 
   const onApplyDiscount = async () => {
@@ -98,6 +98,7 @@ function OrderDetail() {
       localCart = JSON.parse(localStorage.getItem('cart')!);
       if (localCart === null) {
         router.push('/');
+        toast.error('Silahkan tambahkan menu terlebih dahulu!');
       } else {
         const result = accumulator(localCart, discount, tax);
         localStorage.setItem('calculation', JSON.stringify(result));
@@ -112,7 +113,7 @@ function OrderDetail() {
     const localUserData = JSON.parse(localStorage.getItem('user-data')!);
     const localCalculation = JSON.parse(localStorage.getItem('calculation')!);
     const localDataDiscount = JSON.parse(
-      localStorage.getItem('data-discount')!
+      localStorage.getItem('data-discount')!,
     );
 
     const schemaDataCart = localCart.map((item: CartTypes) => ({
@@ -138,9 +139,9 @@ function OrderDetail() {
     };
 
     if (
-      localUserData.name === '' ||
-      localUserData.email === '' ||
-      localUserData.phoneNumber === ''
+      localUserData.name === ''
+      || localUserData.email === ''
+      || localUserData.phoneNumber === ''
     ) {
       toast.error('Isi data anda terlebih dahulu!');
     } else {
@@ -175,66 +176,62 @@ function OrderDetail() {
               <div className="overflow-hidden shadow-md rounded-md">
                 <table className="min-w-full">
                   <thead className="bg-primary text-white">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                    >
-                      Foto Produk
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                    >
-                      Nama Produk
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                    >
-                      Harga
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                    >
-                      Jumlah
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                    >
-                      Total
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
-                    >
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                      >
+                        Foto Produk
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                      >
+                        Nama Produk
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                      >
+                        Harga
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                      >
+                        Jumlah
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                      >
+                        Total
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-md text-left font-medium tracking-wider uppercase"
+                      >
                         <span className="flex flex-row justify-center">
                           Hapus
                         </span>
-                    </th>
-                  </tr>
+                      </th>
+                    </tr>
                   </thead>
                   <tbody>
-                  {cart.map((item: CartTypes) => (
-                    <ItemTable
-                      key={item._id}
-                      image={item.image}
-                      name={item.name}
-                      price={item.price}
-                      qty={item.qty}
-                      onBtnAdd={() => {
-                        onEditItemCart(item._id, 1, item.name);
-                      }}
-                      onBtnSubt={() =>
-                        onEditItemCart(item._id, -1, item.name)
-                      }
-                      onBtnDelete={() =>
-                        onRemoveItemCart(item._id, item.name)
-                      }
-                    />
-                  ))}
+                    {cart.map((item: CartTypes) => (
+                      <ItemTable
+                        key={item._id}
+                        image={item.image}
+                        name={item.name}
+                        price={item.price}
+                        qty={item.qty}
+                        onBtnAdd={() => {
+                          onEditItemCart(item._id, 1, item.name);
+                        }}
+                        onBtnSubt={() => onEditItemCart(item._id, -1, item.name)}
+                        onBtnDelete={() => onRemoveItemCart(item._id, item.name)}
+                      />
+                    ))}
                   </tbody>
                 </table>
               </div>

@@ -9,7 +9,9 @@ interface CategoryItemProps {
 }
 
 function CategoryItem(props: Partial<CategoryItemProps>) {
-  const { categoryId, name, active, onButtonClick } = props;
+  const {
+    categoryId, name, active, onButtonClick,
+  } = props;
   const classsNames = cx({
     'bg-primary': active,
     'text-white': active,

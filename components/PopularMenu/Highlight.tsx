@@ -13,7 +13,9 @@ interface HighlightProps {
 }
 
 function Highlight(props: Partial<HighlightProps>) {
-  const { name, title, description, image, href, isImageInLeft } = props;
+  const {
+    name, title, description, image, href, isImageInLeft,
+  } = props;
   const classNames = cx({
     'col-span-12': true,
     'mt-20': true,
@@ -38,7 +40,9 @@ function Highlight(props: Partial<HighlightProps>) {
       <div className="md:flex md:flex-col justify-center">
         <div className="p-4 text-center md:px-24">
           <h1 className="font-bold text-xl">
-            {title} <span className="text-primary">{name}</span>
+            {title}
+            {' '}
+            <span className="text-primary">{name}</span>
           </h1>
           <p className="mt-3">{description}</p>
           <button
