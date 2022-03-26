@@ -146,6 +146,11 @@ function OrderDetail() {
     } else {
       await addOrder(data)
         .then((res) => {
+          localStorage.removeItem('cart');
+          localStorage.removeItem('user-data');
+          localStorage.removeItem('calculation');
+          localStorage.removeItem('data-discount');
+          router.push(`/order/${res.data._id}`);
           toast.success('Berhasil Checkout!');
         })
         .catch((err) => {

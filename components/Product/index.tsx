@@ -7,8 +7,8 @@ function ProductCard(props: ProductCardProps) {
   const { title, image, price, onAddClick } = props;
 
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-3 hover:shadow-xl transition duration-300">
-      <div className="rounded-lg bg-white shadow-md overflow-hidden">
+    <div className="col-span-12 md:col-span-6 lg:col-span-3">
+      <div className="rounded-lg bg-white shadow-md overflow-hidden hover:shadow-xl transition duration-300">
         <Image
           height={400}
           width={500}

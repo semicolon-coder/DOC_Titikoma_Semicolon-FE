@@ -27,3 +27,8 @@ export interface CartTypes {
   qty: number;
   total: number;
 }
+
+export interface CategoryTypes {
+  _id: string;
+  name: string;
+}

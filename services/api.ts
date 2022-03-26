@@ -21,8 +21,26 @@ export async function addOrder(data: any) {
   return callAPI({ url, method: 'POST', data });
 }
 
+export async function getOrderByIdAPI(orderId: string | string[] | undefined) {
+  const url = `${ROOT_API}/${PATH_API}/order/${orderId}`;
+
+  return callAPI({ url, method: 'GET' });
+}
+
 export async function getAllProduct() {
   const url = `${ROOT_API}/${PATH_API}/product`;
+
+  return callAPI({ url, method: 'GET' });
+}
+
+export async function getAllCategoryAPI() {
+  const url = `${ROOT_API}/${PATH_API}/category`;
+
+  return callAPI({ url, method: 'GET' });
+}
+
+export async function getProductByCategoryAPI(key: string) {
+  const url = `${ROOT_API}/${PATH_API}/product?view=${key}`;
 
   return callAPI({ url, method: 'GET' });
 }
