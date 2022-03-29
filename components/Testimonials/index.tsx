@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
 import Item from './Item';
 import { addTestimonial, getAllTestimonial } from '../../services/api';
 import { TestimonialTypes } from '../../services/data-types';
 import FormTestimonial from '../FormTestimonial';
 
 function Testimonials() {
-  const router = useRouter();
+  const [newTestimonialData, setNewTestimonialData] = useState({});
   const [testimonialName, setTestimonialName] = useState('');
   const [testimonialEmail, setTestimonialEmail] = useState('');
   const [testimonialDescription, setTestimonialDescription] = useState('');
@@ -16,7 +15,7 @@ function Testimonials() {
   const addDataTestimonialToAPI = useCallback(async (data) => {
     await addTestimonial(data)
       .then((r) => {
-        router.reload();
+        setNewTestimonialData(r);
         toast.success('Terima kasih atas masukkannya!');
       })
       .catch(() => {
@@ -48,7 +47,7 @@ function Testimonials() {
 
   useEffect(() => {
     getDataTestimonialFromAPI();
-  }, []);
+  }, [newTestimonialData]);
 
   return (
     <>
