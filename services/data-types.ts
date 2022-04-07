@@ -24,6 +24,7 @@ export interface CartTypes {
   name: string;
   price: number;
   image: string;
+  stock: number;
   qty: number;
   total: number;
 }

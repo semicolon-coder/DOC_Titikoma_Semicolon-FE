@@ -39,7 +39,7 @@ function OrderDetail() {
 
     localStorage.setItem('cart', cartString);
     toast.success(
-      `Berhasil mengubah jumlah menu ${name} menjadi ${existentItem.qty}.`,
+      `Berhasil mengubah jumlah menu ${name} menjadi ${existentItem.qty}.`
     );
   };
 
@@ -59,7 +59,7 @@ function OrderDetail() {
       const data = await getPromoByCode(code);
       return data;
     },
-    [getPromoByCode],
+    [getPromoByCode]
   );
 
   const onApplyDiscount = async () => {
@@ -113,15 +113,29 @@ function OrderDetail() {
     const localUserData = JSON.parse(localStorage.getItem('user-data')!);
     const localCalculation = JSON.parse(localStorage.getItem('calculation')!);
     const localDataDiscount = JSON.parse(
-      localStorage.getItem('data-discount')!,
+      localStorage.getItem('data-discount')!
     );
 
     const schemaDataCart = localCart.map((item: CartTypes) => ({
+      _id: item._id,
       productId: item.productId,
       productName: item.name,
       productPrice: item.price,
       qty: item.qty,
     }));
+
+    const isMinus = localCart
+      .map((item: CartTypes) => {
+        const checkStock = item.stock - item.qty;
+
+        if (checkStock < 0) {
+          toast.error(`${item.name} stock tersisa tinggal ${item.stock}.`);
+          return true;
+        }
+
+        return false;
+      })
+      .find((item: CartTypes) => item);
 
     const data = {
       historyCart: schemaDataCart,
@@ -139,12 +153,12 @@ function OrderDetail() {
     };
 
     if (
-      localUserData.name === ''
-      || localUserData.email === ''
-      || localUserData.phoneNumber === ''
+      localUserData.name === '' ||
+      localUserData.email === '' ||
+      localUserData.phoneNumber === ''
     ) {
       toast.error('Isi data anda terlebih dahulu!');
-    } else {
+    } else if (isMinus !== true) {
       await addOrder(data)
         .then((res) => {
           localStorage.removeItem('cart');
@@ -157,6 +171,10 @@ function OrderDetail() {
         .catch((err) => {
           toast.error('Gagal checkout!');
         });
+    } else {
+      toast.error(
+        'Silahkan sesuaikan jumlah pesanan sesuai dengan stock tersisa!'
+      );
     }
   };
 
@@ -228,8 +246,12 @@ function OrderDetail() {
                         onBtnAdd={() => {
                           onEditItemCart(item._id, 1, item.name);
                         }}
-                        onBtnSubt={() => onEditItemCart(item._id, -1, item.name)}
-                        onBtnDelete={() => onRemoveItemCart(item._id, item.name)}
+                        onBtnSubt={() =>
+                          onEditItemCart(item._id, -1, item.name)
+                        }
+                        onBtnDelete={() =>
+                          onRemoveItemCart(item._id, item.name)
+                        }
                       />
                     ))}
                   </tbody>

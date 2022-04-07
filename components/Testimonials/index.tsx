@@ -6,16 +6,17 @@ import { TestimonialTypes } from '../../services/data-types';
 import FormTestimonial from '../FormTestimonial';
 
 function Testimonials() {
-  const [newTestimonialData, setNewTestimonialData] = useState({});
+  const [submitTestimonial, setSubmitTestimonial] = useState({});
   const [testimonialName, setTestimonialName] = useState('');
   const [testimonialEmail, setTestimonialEmail] = useState('');
   const [testimonialDescription, setTestimonialDescription] = useState('');
   const [dataTestimonial, setDataTestimonial] = useState([]);
 
+  // Call api to add testimonial
   const addDataTestimonialToAPI = useCallback(async (data) => {
     await addTestimonial(data)
       .then((r) => {
-        setNewTestimonialData(r);
+        setSubmitTestimonial(r);
         toast.success('Terima kasih atas masukkannya!');
       })
       .catch(() => {
@@ -23,6 +24,7 @@ function Testimonials() {
       });
   }, []);
 
+  // If input field empty string, show error notification else send data to addDataTestimonialToAPI function
   const addTestimonialData = async () => {
     if (
       testimonialName === '' ||
@@ -40,6 +42,7 @@ function Testimonials() {
     }
   };
 
+  // Call api to get all Testimonial API
   const getDataTestimonialFromAPI = useCallback(async () => {
     const data = await getAllTestimonial();
     setDataTestimonial(data.data);
@@ -47,7 +50,7 @@ function Testimonials() {
 
   useEffect(() => {
     getDataTestimonialFromAPI();
-  }, [newTestimonialData]);
+  }, [submitTestimonial]);
 
   return (
     <>
