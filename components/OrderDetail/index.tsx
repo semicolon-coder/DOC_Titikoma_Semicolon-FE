@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import ItemTable from './ItemTable';
@@ -55,10 +55,7 @@ function OrderDetail() {
   };
 
   const getPromoByCodeAPI = useCallback(
-    async (code) => {
-      const data = await getPromoByCode(code);
-      return data;
-    },
+    async (code) => getPromoByCode(code),
     [getPromoByCode]
   );
 
@@ -112,6 +109,9 @@ function OrderDetail() {
     const localCart = JSON.parse(localStorage.getItem('cart')!);
     const localUserData = JSON.parse(localStorage.getItem('user-data')!);
     const localCalculation = JSON.parse(localStorage.getItem('calculation')!);
+    const localPaymentMethod = JSON.parse(
+      localStorage.getItem('payment-method')!
+    );
     const localDataDiscount = JSON.parse(
       localStorage.getItem('data-discount')!
     );
@@ -146,13 +146,14 @@ function OrderDetail() {
       total: localCalculation.total,
       customer: localUserData,
       payment: {
-        name: 'Cash',
+        name: localPaymentMethod,
         category: 'Direct',
         accountNumber: '-',
       },
     };
 
     if (
+      localPaymentMethod === '' ||
       localUserData.name === '' ||
       localUserData.email === '' ||
       localUserData.phoneNumber === ''
@@ -165,7 +166,8 @@ function OrderDetail() {
           localStorage.removeItem('user-data');
           localStorage.removeItem('calculation');
           localStorage.removeItem('data-discount');
-          router.push(`/order/${res.data._id}`);
+          localStorage.removeItem('payment-method');
+          router.push(`/order/${res.data.callback}`);
           toast.success('Berhasil Checkout!');
         })
         .catch((err) => {

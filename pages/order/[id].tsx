@@ -8,13 +8,16 @@ function OrderId() {
   const router = useRouter();
   const { query, isReady } = router;
   const [dataItem, setDataItem] = useState({
-    _id: '', orderId: ''
-
+    _id: '',
+    orderId: '',
   });
 
   const getOrderDetails = async (orderId: string | string[] | undefined) => {
     await getOrderByIdAPI(orderId)
       .then((data) => {
+        if (data.data.status === 'Proses' || data.data.status === 'Selesai') {
+          router.push('/order/success');
+        }
         setDataItem(data.data);
       })
       .catch(() => {

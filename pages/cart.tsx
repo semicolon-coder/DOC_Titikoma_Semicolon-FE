@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import InputCustomer from '../components/InputCustomer';
 import OrderDetail from '../components/OrderDetail';
+import PaymentMethod from '../components/PaymentMethod';
 
 export default function Cart() {
   return (
@@ -13,6 +14,7 @@ export default function Cart() {
       </Head>
       <Navbar activeMenu="cart" />
       <InputCustomer />
+      <PaymentMethod />
       <OrderDetail />
       <Footer />
     </>
