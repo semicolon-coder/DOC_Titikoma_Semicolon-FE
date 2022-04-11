@@ -1,5 +1,4 @@
 import callAPI from '../config/api';
-import { TestimonialTypes } from './data-types';
 
 const ROOT_API = process.env.NEXT_PUBLIC_API;
 const PATH_API = 'api';

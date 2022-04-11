@@ -1,8 +1,11 @@
 # DOC_Titikoma_Semicolon-FE
 
-Titik Koma Cafe adalah sebuah aplikasi yang digunakan untuk menjadi terobosan baru dalam memesan dan bertransaksi di cafe, aplikasi ini memiliki fitur seperti melihat menu, melihat promo, pemesanan, bahkan pembayaran tunai maupun cashless. Aplikasi ini bertujuan agar pemesanan di cafe menjadi lebih mudah dan efisien sehingga tidak menimbulkan antrean yang panjang dan mempercepat pemesanan hingga pembayaran.
+Titik Koma Cafe adalah sebuah aplikasi yang digunakan untuk menjadi terobosan baru dalam memesan dan bertransaksi di
+cafe, aplikasi ini memiliki fitur seperti melihat menu, melihat promo, pemesanan, bahkan pembayaran tunai maupun
+cashless. Aplikasi ini bertujuan agar pemesanan di cafe menjadi lebih mudah dan efisien sehingga tidak menimbulkan
+antrean yang panjang dan mempercepat pemesanan hingga pembayaran.
 
-## Tujuan 
+## Tujuan
 
 * mengurangi antrean pembelian
 * mempermudah pemesanan & pembayaran
@@ -21,6 +24,3 @@ Titik Koma Cafe adalah sebuah aplikasi yang digunakan untuk menjadi terobosan ba
 * NodeJS
 * ReactJS with framework NextJS
 * Tailwind CSS
-
-## This web app published in 
-https://doc-titikoma-semicolon-fe.vercel.app/

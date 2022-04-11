@@ -15,7 +15,7 @@ function OrderId() {
   const getOrderDetails = async (orderId: string | string[] | undefined) => {
     await getOrderByIdAPI(orderId)
       .then((data) => {
-        if (data.data.status === 'Proses' || data.data.status === 'Selesai') {
+        if (data.data.status !== 'Pending') {
           router.push('/order/success');
         }
         setDataItem(data.data);

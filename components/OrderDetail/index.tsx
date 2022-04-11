@@ -167,7 +167,7 @@ function OrderDetail() {
           localStorage.removeItem('calculation');
           localStorage.removeItem('data-discount');
           localStorage.removeItem('payment-method');
-          router.push(`/order/${res.data.callback}`);
+          router.push(res.data.callback);
           toast.success('Berhasil Checkout!');
         })
         .catch((err) => {
