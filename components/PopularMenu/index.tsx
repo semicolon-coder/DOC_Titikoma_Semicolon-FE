@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
 import ProductCard from '../Product';
 import Highlight from './Highlight';
 import { getPopularProduct } from '../../services/api';
-import { CartTypes, ProductCardProps } from '../../services/data-types';
+import { ProductTypes } from '../../services/data-types';
+import AddItem from '../../config/cart/AddItem';
 
 function PopularMenu() {
   const [popularProduct, setPopularProduct] = useState([]);
-  const [cart, setCart] = useState<any[]>([]);
+  const [cart, setCart] = useState<ProductTypes[]>([]);
   let localCart: string | null;
   if (typeof window !== 'undefined') {
     localCart = localStorage.getItem('cart');
@@ -19,25 +19,13 @@ function PopularMenu() {
     setPopularProduct(dataFromAPI.data);
   }, [getPopularProduct]);
 
-  const addToCart = (item: CartTypes, name: string) => {
-    item.qty = 1;
-    const cartCopy = [...cart];
-
-    const existingItem = cartCopy.find(
-      (cartItem: ProductCardProps) => cartItem._id === item._id,
-    );
-
-    if (existingItem) {
-      existingItem.qty += item.qty;
-    } else {
-      cartCopy.push(item);
-    }
+  const onAddItemCart = (item: ProductTypes, name: string) => {
+    const cartCopy = AddItem(cart, item, name);
 
     setCart(cartCopy);
 
     const stringCart = JSON.stringify(cartCopy);
     localStorage.setItem('cart', stringCart);
-    toast.success(`Berhasil menambahkan ${name} ke dalam keranjang!`);
   };
 
   useEffect(() => {
@@ -55,7 +43,7 @@ function PopularMenu() {
           Popular Menu
         </h1>
       </div>
-      {popularProduct.map((item: CartTypes) => (
+      {popularProduct.map((item: ProductTypes) => (
         <ProductCard
           key={item._id}
           _id={item._id}
@@ -63,7 +51,7 @@ function PopularMenu() {
           image={item.image}
           price={item.price}
           qty={1}
-          onAddClick={() => addToCart(item, item.name)}
+          onAddClick={() => onAddItemCart(item, item.name)}
         />
       ))}
       <Highlight

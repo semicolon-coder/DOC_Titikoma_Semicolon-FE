@@ -18,7 +18,26 @@ export interface HistoryCartResult {
   total: number;
 }
 
-export interface CartTypes {
+export interface TestimonialTypes {
+  _id: string;
+  name: string;
+  description: string;
+}
+
+export interface ProductTypes {
+  _id: string;
+  productId: string;
+  name: string;
+  description: string;
+  category: string;
+  stock: number;
+  status: boolean;
+  price: number;
+  image: string;
+  qty: number;
+}
+
+export interface CartTypes extends ProductTypes {
   productId: string;
   _id: string;
   name: string;
@@ -27,15 +46,4 @@ export interface CartTypes {
   stock: number;
   qty: number;
   total: number;
-}
-
-export interface CategoryTypes {
-  _id: string;
-  name: string;
-}
-
-export interface TestimonialTypes {
-  _id: string;
-  name: string;
-  description: string;
 }

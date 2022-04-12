@@ -1,11 +1,10 @@
 import { CartTypes, HistoryCartResult } from '../../services/data-types';
 
 export default function accumulator(
-  localCartJSON: CartTypes,
+  localCartJSON: CartTypes[],
   discount: number,
   tax: number
 ) {
-  // @ts-ignore
   const historyCart = localCartJSON.map(
     (item: { price: number; qty: number }) => ({
       price: item.price,

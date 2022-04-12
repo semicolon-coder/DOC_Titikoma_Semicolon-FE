@@ -7,16 +7,13 @@ import {
   getAllProduct,
   getProductByCategoryAPI,
 } from '../../services/api';
-import {
-  CartTypes,
-  CategoryTypes,
-  ProductCardProps,
-} from '../../services/data-types';
+import { CartTypes, ProductTypes } from '../../services/data-types';
 import CategoryItem from './CategoryItem';
+import AddItem from '../../config/cart/AddItem';
 
 function MenuSection() {
   const router = useRouter();
-  const [cart, setCart] = useState<any[]>([]);
+  const [cart, setCart] = useState<ProductTypes[]>([]);
   const [menuItem, setMenuItem] = useState([]);
   const [dataCategory, setDataCategory] = useState([]);
   let localCart: string | null;
@@ -40,25 +37,13 @@ function MenuSection() {
     setDataCategory(data.data);
   };
 
-  const addToCart = (item: CartTypes, name: string) => {
-    item.qty = 1;
-    const cartCopy = [...cart];
-
-    const existingItem = cartCopy.find(
-      (cartItem: ProductCardProps) => cartItem._id === item._id
-    );
-
-    if (existingItem) {
-      existingItem.qty += item.qty;
-    } else {
-      cartCopy.push(item);
-    }
+  const onAddItemCart = (item: ProductTypes, name: string) => {
+    const cartCopy = AddItem(cart, item, name);
 
     setCart(cartCopy);
 
     const stringCart = JSON.stringify(cartCopy);
     localStorage.setItem('cart', stringCart);
-    toast.success(`Berhasil menambahkan ${name} ke dalam keranjang!`);
   };
 
   const getProductByCategory = useCallback(
@@ -88,7 +73,7 @@ function MenuSection() {
           key="all-product"
           onButtonClick={() => getProductByCategory('all-product')}
         />
-        {dataCategory.map((item: CategoryTypes) => (
+        {dataCategory.map((item: ProductTypes) => (
           <CategoryItem
             key={item._id}
             name={item.name}
@@ -106,7 +91,7 @@ function MenuSection() {
             image={item.image}
             price={item.price}
             qty={1}
-            onAddClick={() => addToCart(item, item.name)}
+            onAddClick={() => onAddItemCart(item, item.name)}
           />
         ))}
       </div>

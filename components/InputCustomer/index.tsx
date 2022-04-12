@@ -31,17 +31,24 @@ function InputCustomer() {
             <Item
               title="Nama"
               placeholder="Masukkan nama anda..."
-              onInputUserData={(event: { target: { value: string } }) => setUserDataName(event.target.value)}
+              onInputUserData={(event: { target: { value: string } }) =>
+                setUserDataName(event.target.value)
+              }
             />
             <Item
               title="Email"
+              isEmail
               placeholder="Masukkan email aktif anda.."
-              onInputUserData={(event: { target: { value: string } }) => setUserDataEmail(event.target.value)}
+              onInputUserData={(event: { target: { value: string } }) =>
+                setUserDataEmail(event.target.value)
+              }
             />
             <Item
               title="Nomor Telfon"
               placeholder="Masukkan nomor telfon aktif anda.."
-              onInputUserData={(event: { target: { value: string } }) => setUserDataPhone(event.target.value)}
+              onInputUserData={(event: { target: { value: string } }) =>
+                setUserDataPhone(event.target.value)
+              }
             />
           </div>
         </form>

@@ -6,10 +6,12 @@ import ItemCalculation from './ItemCalculation';
 import { CartTypes } from '../../services/data-types';
 import accumulator from '../../config/cart/Accumulator';
 import { addOrder, getPromoByCode } from '../../services/api';
+import RemoveItem from '../../config/cart/RemoveItem';
+import EditItem from '../../config/cart/EditItem';
 
 function OrderDetail() {
   const router = useRouter();
-  const [cart, setCart] = useState<any[]>([]);
+  const [cart, setCart] = useState<CartTypes[]>([]);
   const [inputCodePromo, setInputCodePromo] = useState('');
   const [dataDiscount, setDataDiscount] = useState({
     discountValue: 0,
@@ -23,35 +25,21 @@ function OrderDetail() {
   });
 
   const onEditItemCart = (itemId: string, amount: number, name: string) => {
-    let cartCopy = [...cart];
-    const existentItem = cartCopy.find((item) => item._id === itemId);
+    const cartCopy = EditItem(cart, itemId, amount, name);
 
-    if (!existentItem) return;
-
-    existentItem.qty += amount;
-
-    if (existentItem.qty <= 0) {
-      cartCopy = cartCopy.filter((item) => item._id !== itemId);
-    }
-
-    setCart(cartCopy);
+    setCart(cartCopy!);
     const cartString = JSON.stringify(cartCopy);
 
     localStorage.setItem('cart', cartString);
-    toast.success(
-      `Berhasil mengubah jumlah menu ${name} menjadi ${existentItem.qty}.`
-    );
   };
 
   const onRemoveItemCart = (itemId: string, name: string) => {
-    let cartCopy = [...cart];
-    cartCopy = cartCopy.filter((item) => item._id !== itemId);
+    const cartCopy = RemoveItem(cart, itemId, name);
 
-    setCart(cartCopy);
-
+    setCart(cartCopy!);
     const cartString = JSON.stringify(cartCopy);
+
     localStorage.setItem('cart', cartString);
-    toast.success(`Berhasil menghapus ${name}.`);
   };
 
   const getPromoByCodeAPI = useCallback(
@@ -70,7 +58,7 @@ function OrderDetail() {
           toast.error('Kode voucher gagal digunakan/masa berlaku invalid!');
         }
       })
-      .catch((err) => {
+      .catch(() => {
         setDataDiscount({ discountValue: 0, code: '' });
         toast.error('Kode voucher tidak valid!');
       });
@@ -90,7 +78,7 @@ function OrderDetail() {
   useEffect(() => {
     const tax = 10;
     const discount = dataDiscount.discountValue;
-    let localCart: CartTypes;
+    let localCart: CartTypes[];
     if (typeof window !== 'undefined') {
       localCart = JSON.parse(localStorage.getItem('cart')!);
       if (localCart === null) {
@@ -152,31 +140,49 @@ function OrderDetail() {
       },
     };
 
-    if (
-      localPaymentMethod === '' ||
-      localUserData.name === '' ||
-      localUserData.email === '' ||
-      localUserData.phoneNumber === ''
-    ) {
-      toast.error('Isi data anda terlebih dahulu!');
-    } else if (isMinus !== true) {
-      await addOrder(data)
-        .then((res) => {
-          localStorage.removeItem('cart');
-          localStorage.removeItem('user-data');
-          localStorage.removeItem('calculation');
-          localStorage.removeItem('data-discount');
-          localStorage.removeItem('payment-method');
-          router.push(res.data.callback);
-          toast.success('Berhasil Checkout!');
-        })
-        .catch((err) => {
-          toast.error('Gagal checkout!');
-        });
-    } else {
-      toast.error(
-        'Silahkan sesuaikan jumlah pesanan sesuai dengan stock tersisa!'
+    const checkEmail = localUserData.email
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
+
+    const isCartEmpty = localCart.length === 0;
+
+    if (!isCartEmpty) {
+      if (
+        localPaymentMethod === '' ||
+        localUserData.name === '' ||
+        localUserData.email === '' ||
+        checkEmail === null ||
+        localUserData.phoneNumber === ''
+      ) {
+        if (checkEmail === null) {
+          toast.error('Email anda tidak valid!');
+        } else {
+          toast.error('Isi data anda terlebih dahulu!');
+        }
+      } else if (isMinus !== true) {
+        await addOrder(data)
+          .then((res) => {
+            localStorage.removeItem('cart');
+            localStorage.removeItem('user-data');
+            localStorage.removeItem('calculation');
+            localStorage.removeItem('data-discount');
+            localStorage.removeItem('payment-method');
+            router.push(res.data.callback);
+            toast.success('Berhasil Checkout!');
+          })
+          .catch(() => {
+            toast.error('Gagal checkout!');
+          });
+      } else {
+        toast.error(
+          'Silahkan sesuaikan jumlah pesanan sesuai dengan stock tersisa!'
+        );
+      }
+    } else {
+      router.push('/menu');
+      toast.error('Keranjang kosong, silahkan tambahkan minimal 1 menu!');
     }
   };
 
@@ -248,12 +254,12 @@ function OrderDetail() {
                         onBtnAdd={() => {
                           onEditItemCart(item._id, 1, item.name);
                         }}
-                        onBtnSubt={() =>
-                          onEditItemCart(item._id, -1, item.name)
-                        }
-                        onBtnDelete={() =>
-                          onRemoveItemCart(item._id, item.name)
-                        }
+                        onBtnSubt={() => {
+                          onEditItemCart(item._id, -1, item.name);
+                        }}
+                        onBtnDelete={() => {
+                          onRemoveItemCart(item._id, item.name);
+                        }}
                       />
                     ))}
                   </tbody>
